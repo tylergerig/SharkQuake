@@ -79,12 +79,36 @@ function addthis_add_options_page(){
 		__( 'Sharkquake Options' ),
 		__( 'Sharkquake Options' ),
 		'manage_options',
-		'sharkquake_options_page'
+		'sharkquake_options_page',
 		'sharkquake_render_options_page'
 	);
 }
 
 add_action( 'admin_menu', 'addthis_add_options_page' );
+
+/**
+*Render the options page.
+*
+*@since 1.0.
+*
+*@return void
+*/
+function sharkquake_render_options_page(){
+	?>
+	<div class="wrap">
+		<?php screen_icon(); ?>
+		<h2><?php_e( 'Sharkquake Options'); ?></h2>
+		<form action="options.php" method="post">
+			<?php settings_fields( 'sharkquake_disable_button' ); ?>
+			<?php do_settings_fields( 'sharkquake_options_page' ); ?>
+			<p class="submit">
+				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php_e( 'Save Changes' ); ?>">
+			</p>
+		</form>
+	</div>
+	<?php
+
+}
 
 /*
 <!-- AddThis Button BEGIN -->
