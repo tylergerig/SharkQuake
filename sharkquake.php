@@ -16,26 +16,30 @@ License: GNU General Public License v2 or later
 */
 
 function addthis01_enqueue_script(){
-	//load the AddThis script in the footer
-	wp_enqueue_script(
-		'sharkquake-addthis',
-		'var addthis_config = {"data_track_addressbar":true};',
-		array(),
-		null,
-		true
+	if('0' === get_option( 'sharkquake_disable_button', '0')){
+		//load the AddThis script in the footer
+		wp_enqueue_script(
+			'sharkquake-addthis',
+			'var addthis_config = {"data_track_addressbar":true};',
+			array(),
+			null,
+			true
 		);
+	}
 }
 add_action( 'wp_enqueue_script', 'addthis01_enqueue_script' );
 
 function addthis02_enqueue_script(){
-	//load the AddThis script in the footer
-	wp_enqueue_script(
-		'sharkquake-addthis',
-		'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51f4f4fd3bb159a0',
-		array(),
-		null,
-		true
+	if('0' === get_option( 'sharkquake_disable_button', '0')){
+		//load the AddThis script in the footer
+		wp_enqueue_script(
+			'sharkquake-addthis',
+			'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51f4f4fd3bb159a0',
+			array(),
+			null,
+			true
 		);
+	}
 }
 add_action( 'wp_enqueue_script', 'addthis02_enqueue_script' );
 
@@ -49,7 +53,7 @@ add_action( 'wp_enqueue_script', 'addthis02_enqueue_script' );
 */
 
 function addthis_add_button($content){
-	if( is_single() ){
+	if( is_single() && '0' === get_option( 'sharkquake_disable_button', '0')){
 		//Create the AddThis button HTML
 		$button_html  = '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">';
 		$button_html .= '<a class="addthis_button_preferred_1"></a>';
@@ -100,7 +104,7 @@ function sharkquake_render_options_page(){
 		<h2><?php_e( 'Sharkquake Options'); ?></h2>
 		<form action="options.php" method="post">
 			<?php settings_fields( 'sharkquake_disable_button' ); ?>
-			<?php do_settings_fields( 'sharkquake_options_page' ); ?>
+			<?php do_settings_sections( 'sharkquake_options_page' ); ?>
 			<p class="submit">
 				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php_e( 'Save Changes' ); ?>">
 			</p>
@@ -108,6 +112,65 @@ function sharkquake_render_options_page(){
 	</div>
 	<?php
 
+}
+
+/**
+ * Setup a setting for disabling the AddThis button.
+ *
+ * @since  1.0.
+ *
+ * @return void
+ */
+function sharkquake_add_disable_button_setting() {
+    // Register a binary value called "sharkquake_disable"
+    register_setting(
+        'sharkquake_disable_button',
+        'sharkquake_disable_button',
+        'absint'
+    );
+
+    // Add the settings section to hold the interface
+    add_settings_section(
+        'sharkquake_main_settings',
+        __( 'Sharkquake Controls' ),
+        'sharkquake_render_main_settings_section',
+        'sharkquake_options_page'
+    );
+
+    // Add the settings field to define the interface
+    add_settings_field(
+        'sharkquake_disable_button_field',
+        __( 'Disable AddThis Buttons' ),
+        'sharkquake_render_disable_button_input',
+        'sharkquake_options_page',
+        'sharkquake_main_settings'
+    );
+}
+
+add_action( 'admin_init', 'sharkquake_add_disable_button_setting' );
+
+/**
+ * Render text to be displayed in the "sharkquake_main_settings" section.
+ *
+ * @since  1.0.
+ *
+ * @return void
+ */
+function sharkquake_render_main_settings_section() {
+    echo '<p>Main settings for the Sharkquake plugin.</p>';
+}
+
+/**
+ * Render the input for the "sharkquake_disable_button" setting.
+ *
+ * @since  1.0.
+ *
+ * @return void
+ */
+function sharkquake_render_disable_button_input() {
+    // Get the current value
+    $current = get_option( 'sharkquake_disable_button', 0 );
+    echo '<input id="sharkquake-disable-button" name="sharkquake_disable_button" type="checkbox" value="1" ' . checked( 1, $current, false ) . ' />';
 }
 
 /*
