@@ -15,17 +15,29 @@ License: GNU General Public License v2 or later
 * @return void
 */
 
-function addthis_enqueue_script(){
+function addthis01_enqueue_script(){
+	//load the AddThis script in the footer
+	wp_enqueue_script(
+		'sharkquake-addthis',
+		'var addthis_config = {"data_track_addressbar":true};',
+		array(),
+		null,
+		true
+		);
+}
+add_action( 'wp_enqueue_script', 'addthis01_enqueue_script' );
+
+function addthis02_enqueue_script(){
 	//load the AddThis script in the footer
 	wp_enqueue_script(
 		'sharkquake-addthis',
 		'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51f4f4fd3bb159a0',
 		array(),
 		null,
-		true,
+		true
 		);
 }
-add_action(  'wp_enqueue_script', 'addthis_enqueue_script'  );
+add_action( 'wp_enqueue_script', 'addthis02_enqueue_script' );
 
 /**
 * Append the AddThis Button group on single post pages.
@@ -37,7 +49,7 @@ add_action(  'wp_enqueue_script', 'addthis_enqueue_script'  );
 */
 
 function addthis_add_button($content){
-	if(  is_single()  ){
+	if( is_single() ){
 		//Create the AddThis button HTML
 		$button_html  = '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">';
 		$button_html .= '<a class="addthis_button_preferred_1"></a>';
