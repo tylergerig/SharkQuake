@@ -27,6 +27,34 @@ function addthis_enqueue_script(){
 }
 add_action(  'wp_enqueue_script', 'addthis_enqueue_script'  );
 
+/**
+* Append the AddThis Button group on single post pages.
+*
+*@since 1.0.
+*
+*@param  string		$content 	The original content.
+*@return string 				The modified content.
+*/
+
+function addthis_add_button($content){
+	if(  is_single()  ){
+		//Create the AddThis button HTML
+		$button_html  = '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">';
+		$button_html .= '<a class="addthis_button_preferred_1"></a>';
+		$button_html .= '<a class="addthis_button_preferred_2"></a>';
+		$button_html .= '<a class="addthis_button_preferred_3"></a>';
+		$button_html .= '<a class="addthis_button_preferred_4"></a>';
+		$button_html .= '<a class="addthis_button_compact"></a>';
+		$button_html .= '</div>';
+
+		$content .= $button_html;
+	}
+	return $content;
+}
+
+add_filter(  'the_content', 'addthis_add_button', 20);
+
+/*
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">
 <a class="addthis_button_preferred_1"></a>
@@ -38,3 +66,4 @@ add_action(  'wp_enqueue_script', 'addthis_enqueue_script'  );
 <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51f4f4fd3bb159a0"></script>
 <!-- AddThis Button END -->
+*/
