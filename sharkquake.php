@@ -66,6 +66,26 @@ function addthis_add_button($content){
 
 add_filter(  'the_content', 'addthis_add_button', 20);
 
+/**
+*Add an options page for the plugin.
+*
+*@since 1.0.
+*
+*@return void
+*/
+function addthis_add_options_page(){
+	//Add new page under the "Settings tab"
+	add_options_page(
+		__( 'Sharkquake Options' ),
+		__( 'Sharkquake Options' ),
+		'manage_options',
+		'sharkquake_options_page'
+		'sharkquake_render_options_page'
+	);
+}
+
+add_action( 'admin_menu', 'addthis_add_options_page' );
+
 /*
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">
