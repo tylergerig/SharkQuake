@@ -57,7 +57,7 @@ add_action( 'wp_enqueue_script', 'addthis02_enqueue_script' );
 function addthis_add_button($content){
 	if( is_single() && '0' === get_option( 'sharkquake_disable_button', '0')){
 		//Create the AddThis button HTML
-		$button_html  = '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">';
+		$button_html  = '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style" ' if('0' === get_option ( 'sharkquake_right_button', '0')){'style="right:50px;top:50px;">' }else{'style="left:50px;top:50px;">};
 		$button_html .= '<a class="addthis_button_preferred_1"></a>';
 		$button_html .= '<a class="addthis_button_preferred_2"></a>';
 		$button_html .= '<a class="addthis_button_preferred_3"></a>';
@@ -151,6 +151,34 @@ function sharkquake_add_disable_button_setting() {
 
 add_action( 'admin_init', 'sharkquake_add_disable_button_setting' );
 
+function sharkquake_left_right_button_setting() {
+    // Register a binary value called "sharkquake_right"
+    register_setting(
+        'sharkquake_right_button',
+        'sharkquake_right_button',
+        'absint'
+    );
+
+/*    // Add the settings section to hold the interface
+    add_settings_section(
+        'sharkquake_main_settings',
+        __( 'Sharkquake Controls' ),
+        'sharkquake_render_main_settings_section',
+        'sharkquake_options_page'
+    );*/
+
+    // Add the settings field to define the interface
+    add_settings_field(
+        'sharkquake_right_button_field',
+        __( 'Float Right AddThis Buttons' ),
+        'sharkquake_render_right_button_input',
+        'sharkquake_options_page',
+        'sharkquake_main_settings'
+    );
+}
+
+add_action( 'admin_init', 'sharkquake_left_right_button_setting' );
+
 /**
  * Render text to be displayed in the "sharkquake_main_settings" section.
  *
@@ -173,6 +201,18 @@ function sharkquake_render_disable_button_input() {
     // Get the current value
     $current = get_option( 'sharkquake_disable_button', 0 );
     echo '<input id="sharkquake-disable-button" name="sharkquake_disable_button" type="checkbox" value="1" ' . checked( 1, $current, false ) . ' />';
+}
+/**
+ * Render the input for the "sharkquake_right_button" setting.
+ *
+ * @since  1.0.
+ *
+ * @return void
+ */
+function sharkquake_render_right_button_input() {
+    // Get the current value
+    $leftRight = get_option( 'sharkquake_right_button', 0 );
+    echo '<input id="sharkquake-right-button" name="sharkquake_right_button" type="checkbox" value="1" ' . checked( 1, $leftRight, false ) . ' />';
 }
 
 /*
