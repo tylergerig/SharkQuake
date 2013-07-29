@@ -15,6 +15,7 @@ License: GNU General Public License v2 or later
 * @return void
 */
 
+/*
 function addthis01_enqueue_script(){
 	if('0' === get_option( 'sharkquake_disable_button', '0')){
 		//load the AddThis script in the footer
@@ -42,6 +43,7 @@ function addthis02_enqueue_script(){
 	}
 }
 add_action( 'wp_enqueue_script', 'addthis02_enqueue_script' );
+*/
 
 /**
 * Append the AddThis Button group on single post pages.
