@@ -59,12 +59,11 @@ function addthis_add_button($content){
 	/*$style = 'left';*/
 	if( is_single() && '0' === get_option( 'sharkquake_disable_button', '0')){
 		//Create the AddThis button HTML
-		$button_html  = '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style ="left/*+$style+*/:50px;top:50px;">'; /*function leftRight_button($leftRight){
+		$button_html  = '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style ="/*+$style+*/:50px;top:50px;">'; /*function leftRight_button($current){}
 				if( '0' === get_option ( 'sharkquake_right_button', '0')){
 					$style = right; 
 				}
-				return $leftRight;
-		}*/
+		return $current;*/
 		$button_html .= '<a class="addthis_button_preferred_1"></a>';
 		$button_html .= '<a class="addthis_button_preferred_2"></a>';
 		$button_html .= '<a class="addthis_button_preferred_3"></a>';
@@ -78,7 +77,7 @@ function addthis_add_button($content){
 }
 
 add_filter(  'the_content', 'addthis_add_button', 20);
-/*add_filter(  'the_content', 'leftRight_button', 21);*/
+// add_filter(  'the_content', 'leftRight_button', 21);
 
 /**
 *Add an options page for the plugin.
@@ -114,7 +113,17 @@ function sharkquake_render_options_page(){
 		<h2><?php_e( 'Sharkquake Options'); ?></h2>
 		<form action="options.php" method="post">
 			<?php settings_fields( 'sharkquake_disable_button' ); ?>
+			<?php //settings_fields( 'sharkquake_right_button' ); ?>
 			<?php do_settings_sections( 'sharkquake_options_page' ); ?>
+			<label>Choose number of buttons</label>
+			<select name="numberButtons">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+			</select>
 			<p class="submit">
 				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php_e( 'Save Changes' ); ?>">
 			</p>
@@ -227,10 +236,10 @@ function sharkquake_render_disable_button_input() {
  */
 /*function sharkquake_render_right_button_input() {
     // Get the current value
-    $leftRight = get_option( 'sharkquake_right_button', 0 );
-    echo '<input id="sharkquake-right-button" name="sharkquake_right_button" type="checkbox" value="1" ' . checked( 1, $leftRight, false ) . ' />';
-}*/
-
+    $current = get_option( 'sharkquake_right_button', 0 );
+    echo '<input id="sharkquake-right-button" name="sharkquake_right_button" type="checkbox" value="1" ' . checked( 1, $current, false ) . ' />';
+}
+*/
 /*
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">
