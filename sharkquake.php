@@ -155,7 +155,7 @@ function sharkquake_setting() {
 
     // Add the settings field to define the interface
     add_settings_field(
-        'sharkquake_diable_field',
+        'sharkquake_disable_field',
         __( 'Disable AddThis' ),
         'sharkquake_render_disable_input',
         'sharkquake_options_page',
@@ -219,6 +219,7 @@ function sharkquake_render_disable_input() {
     // Get the current value
     $status = get_option( 'sharkquake_disable', 0 );
     $disable = '<input id="sharkquake_disable" name="sharkquake_disable" type="checkbox" value="1" ' . checked( 1, $status, false ) . ' />';
+    echo $disable;
 }
 /**
  * Render the input for the "sharkquake_position" setting.
@@ -229,7 +230,7 @@ function sharkquake_render_disable_input() {
  */
 function sharkquake_render_position_input() {
     // Get the current value
-    $position = get_option( 'sharkquake_right_button', 0 );
+    $position = get_option( 'sharkquake_position', 0 );
     $posi = '<input id="sharkquake-position" name="sharkquake_position" type="radio" value="1" ' . checked( 1, $position, false ) . ' />';
     $posi .= '<label for="positionLeft"> Left </label>';
     $posi .= '<input id="sharkquake-position" name="sharkquake_position" type="radio" value="2" ' . checked( 2, $position, false ) . ' />';
@@ -277,7 +278,7 @@ function Sharkquake_AddThis_Buttons () {
 		  addthis.layers({
 		    'theme' : 'transparent',
 		    'share' : {
-		      'position' : $position,
+		      'position' : '".$render."',
 		      'numPreferredServices' : $numofButtons
 		    }   
 		  });
@@ -286,6 +287,7 @@ function Sharkquake_AddThis_Buttons () {
 		echo $sharkQuake;
 	}
 }
+add_action( 'wp_footer', 'Sharkquake_AddThis_Buttons', 1000 );
 /*
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">
