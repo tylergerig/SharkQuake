@@ -55,30 +55,7 @@ add_action( 'wp_enqueue_scripts', 'tylerG_enqueue_script' );
 
 add_filter(  'the_content', 'addthis_add_button', 20);
 */
-function Sharkquake_AddThis_Buttons () {
-  $disabled = get_option( 'sharkquake_disable', 0 );
-  if ( $disabled == 0 ){
-    $position = get_option( 'sharkquake_position', 'left' );
-    if ( $position == 1 ){
-      $render = 'left';
-    } else {
-      $render = 'right';
-    }
-    $numofButtons = get_option('sharkquake_numofButtons', 1);
-		$sharkQuake= "
-		<script type='text/javascript'>
-		  addthis.layers({
-		    'theme' : 'transparent',
-		    'share' : {
-		      'position' : $position,
-		      'numPreferredServices' : $numofButtons
-		    }   
-		  });
-		</script>
-		";
-		echo $sharkQuake;
-	}
-}
+
 /**
 *Add an options page for the plugin.
 *
@@ -284,6 +261,31 @@ function sharkquake_render_numofButtons_input() {
 }
 
 // Credit to Jake Love for some of his logic
+
+function Sharkquake_AddThis_Buttons () {
+  $disabled = get_option( 'sharkquake_disable', 0 );
+  if ( $disabled == 0 ){
+    $position = get_option( 'sharkquake_position', 'left' );
+    if ( $position == 1 ){
+      $render = 'left';
+    } else {
+      $render = 'right';
+    }
+    $numofButtons = get_option('sharkquake_numofButtons', 1);
+		$sharkQuake= "
+		<script type='text/javascript'>
+		  addthis.layers({
+		    'theme' : 'transparent',
+		    'share' : {
+		      'position' : $position,
+		      'numPreferredServices' : $numofButtons
+		    }   
+		  });
+		</script>
+		";
+		echo $sharkQuake;
+	}
+}
 /*
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:50px;top:50px;">
